@@ -28,7 +28,11 @@ func NewCampaign(name string, content string, emails []string) (*Campaign, error
 	}
 
 	if name == "" || content == "" || len(emails) == 0 {
-		return nil, errors.New("invalid campaign data")
+		return nil, errors.New("name is required")
+	} else if content == "" {
+		return nil, errors.New("content is required")
+	} else if len(emails) == 0 {
+		return nil, errors.New("at least one email is required")
 	}
 
 	return &Campaign{
