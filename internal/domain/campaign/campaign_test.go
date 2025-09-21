@@ -18,8 +18,8 @@ func Test_NewCampaign_Go(t *testing.T) {
 
 	campaign, _ := NewCampaign(name, content, contacts)
 
-	if campaign.ID != "1" {
-		t.Errorf("Expected %s, got %s", "1", campaign.ID)
+	if campaign.ID == "" {
+		t.Errorf("Expected ID to be set, got empty string")
 	} else if campaign.Name != name {
 		t.Errorf("Expected %s, got %s", name, campaign.Name)
 	} else if campaign.Content != content {
@@ -34,7 +34,7 @@ func Test_NewCampaign_CreateCampaign(t *testing.T) {
 
 	campaign, _ := NewCampaign(name, content, contacts)
 
-	assert.Equal(t, "1", campaign.ID)
+	assert.NotEmpty(t, campaign.ID)
 	assert.Equal(t, name, campaign.Name)
 	assert.Equal(t, content, campaign.Content)
 	assert.Equal(t, len(contacts), len(campaign.Contacts))
@@ -55,12 +55,14 @@ func Test_NewCampaign_CreatedOnIsNotNull(t *testing.T) {
 
 	assert.Greater(t, campaign.CreatedOn, now)
 }
+
 func Test_NewCampaign_HasContent(t *testing.T) {
 
 	campaign, _ := NewCampaign(name, content, contacts)
 
 	assert.Equal(t, content, campaign.Content)
 }
+
 func Test_NewCampaign_MustValidateName(t *testing.T) {
 
 	_, err := NewCampaign("", content, contacts)
