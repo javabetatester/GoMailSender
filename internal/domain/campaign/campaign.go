@@ -15,7 +15,7 @@ type Campaign struct {
 	Contacts  []Contact
 }
 
-func NewCampaign(name string, content string, emails []string) Campaign {
+func NewCampaign(name string, content string, emails []string) *Campaign {
 
 	contacts := make([]Contact, len(emails))
 
@@ -23,7 +23,7 @@ func NewCampaign(name string, content string, emails []string) Campaign {
 		contacts[index].Email = value
 
 	}
-	return Campaign{
+	return &Campaign{
 		ID:        "1",
 		Name:      name,
 		CreatedOn: time.Now(),
