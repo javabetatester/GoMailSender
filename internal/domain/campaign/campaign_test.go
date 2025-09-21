@@ -2,17 +2,21 @@ package campaign
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
-// TDD com Testes nativos do Golang
-func TestNewCampaign(t *testing.T) {
-	name := "Campaign x"
-	content := "Body"
-	contacts := []string{"email1@example.com", "email2@example.com"}
+var (
+	name     = "Campaign x"
+	content  = "Body"
+	contacts = []string{"email1@example.com", "email2@example.com"}
+)
 
-	campaign := NewCampaign(name, content, contacts)
+// TDD com Testes nativos do Golang
+func Test_NewCampaign_Go(t *testing.T) {
+
+	campaign, _ := NewCampaign(name, content, contacts)
 
 	if campaign.ID != "1" {
 		t.Errorf("Expected %s, got %s", "1", campaign.ID)
@@ -26,15 +30,40 @@ func TestNewCampaign(t *testing.T) {
 }
 
 // TDD com Testify
-func TestTestifyNewCampaign(t *testing.T) {
-	name := "Campaign x"
-	content := "Body"
-	contacts := []string{"email1@example.com", "email2@example.com"}
+func Test_NewCampaign_CreateCampaign(t *testing.T) {
 
-	campaign := NewCampaign(name, content, contacts)
+	campaign, _ := NewCampaign(name, content, contacts)
 
 	assert.Equal(t, "1", campaign.ID)
 	assert.Equal(t, name, campaign.Name)
 	assert.Equal(t, content, campaign.Content)
 	assert.Equal(t, len(contacts), len(campaign.Contacts))
+}
+
+func Test_NewCampaign_IDIsNotNull(t *testing.T) {
+
+	campaign, _ := NewCampaign(name, content, contacts)
+
+	assert.NotNil(t, campaign.ID)
+}
+
+func Test_NewCampaign_CreatedOnIsNotNull(t *testing.T) {
+
+	now := time.Now().Add(-time.Minute)
+
+	campaign, _ := NewCampaign(name, content, contacts)
+
+	assert.Greater(t, campaign.CreatedOn, now)
+}
+func Test_NewCampaign_HasContent(t *testing.T) {
+
+	campaign, _ := NewCampaign(name, content, contacts)
+
+	assert.Equal(t, content, campaign.Content)
+}
+func Test_NewCampaign_MustValidateName(t *testing.T) {
+
+	_, err := NewCampaign("", content, contacts)
+
+	assert.Equal(t, "invalid campaign data", err.Error())
 }
