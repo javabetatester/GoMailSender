@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"time"
+
 	"github.com/rs/xid"
 )
 
@@ -19,18 +20,26 @@ type Campaign struct {
 }
 
 func NewCampaign(name string, content string, emails []string) (*Campaign, error) {
-
 	contacts := make([]Contact, len(emails))
 
 	for index, value := range emails {
 		contacts[index].Email = value
 	}
 
-	if name == "" || content == "" || len(emails) == 0 {
+	// Validações de disparo de erro são necessárias implementadas, todos os cases que disparam um erro de tipo "x"
+	if name == "" {
 		return nil, errors.New("name is required")
-	} else if content == "" {
+	}
+	if len(name) < 5 {
+		return nil, errors.New("name must be at least 5 characters")
+	}
+	if content == "" {
 		return nil, errors.New("content is required")
-	} else if len(emails) == 0 {
+	}
+	if len(content) < 10 {
+		return nil, errors.New("content must be at least 10 characters")
+	}
+	if len(emails) == 0 {
 		return nil, errors.New("at least one email is required")
 	}
 

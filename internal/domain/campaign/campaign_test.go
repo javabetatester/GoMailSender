@@ -63,9 +63,15 @@ func Test_NewCampaign_HasContent(t *testing.T) {
 	assert.Equal(t, content, campaign.Content)
 }
 
+
+//TESTE COM VARIOS CASES
 func Test_NewCampaign_MustValidateName(t *testing.T) {
 
 	_, err := NewCampaign("", content, contacts)
 
-	assert.Equal(t, "invalid campaign data", err.Error())
+	assert.Equal(t, "name is required", err.Error())
+
+	_, err = NewCampaign("oioi", content, contacts)
+
+	assert.Equal(t, "name must be at least 5 characters", err.Error())
 }
