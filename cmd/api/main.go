@@ -65,5 +65,35 @@ func main() {
 		fmt.Printf("JSON enviado: %s\n", jsonData) // JEITO ESBELTO
 	})
 
+	type travequeiros struct {
+		CPF           string
+		Nome          string
+		NmrDeTravecos int
+	}
+
+	listaTravecos := make(map[string]travequeiros)
+
+	r.Post("/perfilTravequeiro", func(w http.ResponseWriter, r *http.Request) {
+		var travequeiro travequeiros
+		render.DecodeJSON(r.Body, &travequeiro)
+		listaTravecos[travequeiro.CPF] = travequeiro
+		render.JSON(w, r, travequeiro)
+	})
+
+	r.Patch("/perfilTravequeiro/{cpf}", func(w http.ResponseWriter, r *http.Request) {
+		cpf := chi.URLParam(r, "cpf")
+		var travequeiro travequeiros
+		render.DecodeJSON(r.Body, &travequeiro)
+		for _, value := range listaTravecos {
+			if value.CPF == cpf {
+				listaTravecos[cpf] = travequeiro
+			}
+		}
+		for _, value := range listaTravecos {
+			fmt.Println(value.CPF)
+		}
+
+	})
+
 	http.ListenAndServe(":4889", r)
 }
