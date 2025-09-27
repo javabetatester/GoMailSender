@@ -1,32 +1,48 @@
 # Go Studies 📚
 
-Projeto de estudos em Go focado em arquitetura de software e boas práticas de desenvolvimento.
+Projeto de estudos em Go focado em arquitetura de software, APIs REST e boas práticas de desenvolvimento.
 
 ## 📋 Sobre o Projeto
 
 Este repositório contém exemplos práticos e implementações de conceitos fundamentais de desenvolvimento em Go, incluindo:
 
-- Estruturas de domínio
-- Testes unitários
-- Padrões de arquitetura
-- Organização de código
+- Estruturas de domínio com validações
+- APIs REST
+- Testes unitários abrangentes
+- Padrões de arquitetura limpa
+- Organização de código profissional
 
-## 🚀 Conceitos Abordados
+## 🚀 Conceitos Implementados
 
-- ✅ Domain-Driven Design (DDD)
-- ✅ Clean Architecture
-- ✅ Testes unitários com testify
-- ✅ Estruturação de projetos Go
-- 🔄 Padrões de design (em desenvolvimento)
-- 🔄 APIs REST (em desenvolvimento)
+- ✅ **Domain-Driven Design (DDD)** - Entidades e regras de negócio
+- ✅ **Clean Architecture** - Separação de responsabilidades
+- ✅ **APIs REST** - Gin
+- ✅ **Testes unitários** - Com testify e cenários completos
+- ✅ **Validações** - Entrada de dados e regras de negócio
+- ✅ **Repository Pattern** - Camada de persistência
+- ✅ **Middleware** - Logging, Recovery e tratamento de erros
+- ✅ **Dependency Injection** - Injeção de dependências
+- ✅ **Error Handling** - Tratamento robusto de erros
 
 ## 🛠️ Tecnologias
 
+### Core
 - **Go 1.25.0** - Linguagem principal
 - **github.com/rs/xid** - Geração de IDs únicos
+- **github.com/go-playground/validator/v10** - Validações
+
+### Web Frameworks
+- **github.com/gin-gonic/gin** - Framework web rápido
+- **github.com/go-chi/chi/v5** - Router HTTP minimalista
+- **github.com/go-chi/render** - Renderização JSON
+
+### Testes
 - **github.com/stretchr/testify** - Framework de testes
 
-## 📁 Estrutura
+### DevOps
+- **Air** - Hot reload para desenvolvimento
+
+## 📁 Estrutura do Projeto
 
 ```
 GoStudies/
