@@ -4,6 +4,8 @@ import (
 	"GoMailSender/internal/contract"
 	"GoMailSender/internal/domain/campaign"
 	"GoMailSender/internal/infra/database"
+	"GoMailSender/internal/internalErrors"
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -32,7 +34,13 @@ func main() {
 		id, err := Service.Create(request)
 
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			// Resposta de erro Interno
+			if errors.Is(err, internalErrors.ErrInternalServer) {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+				// Resposta de erro Bad Request
+			} else {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			}
 			return
 		}
 

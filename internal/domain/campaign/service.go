@@ -3,7 +3,6 @@ package campaign
 import (
 	"GoMailSender/internal/contract"
 	"GoMailSender/internal/internalErrors"
-
 )
 
 type Service struct {
@@ -19,7 +18,7 @@ func (s *Service) Create(newCampaign contract.NewCampaign) (string, error) {
 	err = s.Repository.Save(campaign)
 
 	if err != nil {
-		return "", errors.ErrInternalServer
+		return "", internalErrors.ErrInternalServer
 	}
 
 	return campaign.ID, nil
