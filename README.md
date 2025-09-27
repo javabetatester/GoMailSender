@@ -33,8 +33,6 @@ Este repositório contém exemplos práticos e implementações de conceitos fun
 
 ### Web Frameworks
 - **github.com/gin-gonic/gin** - Framework web rápido
-- **github.com/go-chi/chi/v5** - Router HTTP minimalista
-- **github.com/go-chi/render** - Renderização JSON
 
 ### Testes
 - **github.com/stretchr/testify** - Framework de testes
