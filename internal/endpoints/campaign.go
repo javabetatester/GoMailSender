@@ -2,35 +2,40 @@ package endpoints
 
 import (
 	"GoMailSender/internal/contract"
-	"GoMailSender/internal/internalErrors"
-	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) CampaignPost(c *gin.Context) {
+// CampaignPost cria uma nova campanha
+// Tratamento de erros é delegado para o HandlerError middleware
+func (h *Handler) CampaignPost(c *gin.Context) (interface{}, int, error) {
 	var request contract.NewCampaign
 
-	// Gin tem binding automático mais simples
+	// Bind do JSON - erro será tratado pelo HandlerError
 	if err := c.ShouldBindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+		return nil, http.StatusBadRequest, err
 	}
 
+	// Criar campanha - erro será tratado pelo HandlerError
 	id, err := h.CampaingService.Create(request)
-
 	if err != nil {
-		// Resposta de erro Interno
-		if errors.Is(err, internalErrors.ErrInternalServer) {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-			// Resposta de erro Bad Request
-		} else {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		}
-		return
+		return nil, 0, err // Status será determinado pelo tipo de erro
 	}
 
-	// Resposta de sucesso
-	c.JSON(http.StatusCreated, gin.H{"id": id})
+	// Retorna sucesso
+	return gin.H{"id": id}, http.StatusCreated, nil
+}
+
+// CampaignGet busca todas as campanhas
+// Tratamento de erros é delegado para o HandlerError middleware
+func (h *Handler) CampaignGet(c *gin.Context) (interface{}, int, error) {
+	// Buscar campanhas - erro será tratado pelo HandlerError
+	campaigns, err := h.CampaingService.Repository.Get()
+	if err != nil {
+		return nil, 0, err // Status será determinado pelo tipo de erro
+	}
+
+	// Retorna sucesso
+	return gin.H{"campaigns": campaigns}, http.StatusOK, nil
 }

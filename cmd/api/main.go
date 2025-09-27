@@ -11,7 +11,6 @@ import (
 func main() {
 	g := gin.Default()
 
-	// Middleware equivalente no Gin
 	g.Use(gin.Logger())
 	g.Use(gin.Recovery())
 
@@ -19,10 +18,11 @@ func main() {
 		Repository: &database.CampaignRepository{},
 	}
 	handler := endpoints.Handler{
-		CampaingService: Service, // CHAMA O SERVICE ACIMA
+		CampaingService: Service,
 	}
 
-	g.POST("/gin-campaigns", handler.CampaignPost)
+	g.POST("/gin-campaigns", 	endpoints.HandlerError(handler.CampaignPost))
+	g.GET("/gin-campaigns", endpoints.HandlerError(handler.CampaignGet))
 
 	g.Run(":3001")
 }

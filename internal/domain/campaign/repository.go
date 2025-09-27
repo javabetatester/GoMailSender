@@ -1,5 +1,6 @@
 package campaign
 
-type Repository interface{
+type Repository interface {
 	Save(campaign *Campaign) error
+	Get() ([]Campaign, error)
 }
