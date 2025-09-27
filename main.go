@@ -9,6 +9,27 @@ import (
 	"github.com/rs/xid"
 )
 
+type Calculadora interface {
+	Calcula(valor1, valor2 int) int
+	Printa() (int, int)
+}
+
+type soma struct {
+	valor1 int
+	valor2 int
+}
+
+func (s *soma) Calcula(valor1, valor2 int) int {
+	s.valor1 = valor1
+	s.valor2 = valor2
+	return valor1 + valor2
+
+}
+
+func (s *soma) Printa() (int, int) {
+	return s.valor1, s.valor2
+}
+
 func main() {
 
 	campaign := campaign.Campaign{
