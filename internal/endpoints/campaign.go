@@ -18,7 +18,7 @@ func (h *Handler) CampaignPost(c *gin.Context) (interface{}, int, error) {
 	}
 
 	// Criar campanha - erro será tratado pelo HandlerError
-	id, err := h.CampaingService.Create(request)
+	id, err := h.CampaignService.Create(request)
 	if err != nil {
 		return nil, 0, err // Status será determinado pelo tipo de erro
 	}
@@ -31,11 +31,22 @@ func (h *Handler) CampaignPost(c *gin.Context) (interface{}, int, error) {
 // Tratamento de erros é delegado para o HandlerError middleware
 func (h *Handler) CampaignGet(c *gin.Context) (interface{}, int, error) {
 	// Buscar campanhas - erro será tratado pelo HandlerError
-	campaigns, err := h.CampaingService.Repository.Get()
+	campaigns, err := h.CampaignService.Repository.Get()
 	if err != nil {
 		return nil, 0, err // Status será determinado pelo tipo de erro
 	}
 
 	// Retorna sucesso
-	return gin.H{"campaigns": campaigns}, http.StatusOK, nil
+	return gin.H{"campaigns": campaigns}, http.StatusCreated, nil
+}
+
+// CampaignGetById busca a campanha pelo ID
+// Tratamento de erros é delegado para o HandlerError middleware
+func (h *Handler) CampaignGetById(c *gin.Context) (interface{}, int, error) {
+	id := c.Param("id")
+	campaign, err := h.CampaignService.Repository.GetById(id)
+	if err != nil {
+		return nil, 0, err // Status será determinado pelo tipo de erro
+	}
+	return campaign, http.StatusOK, nil
 }
