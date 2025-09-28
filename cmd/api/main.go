@@ -10,11 +10,7 @@ import (
 )
 
 func main() {
-_, err := database.NewDB()
-	if err != nil {
-		log.Fatal("Erro ao conectar com o banco:", err)
-	}
-	defer database.CloseDB()
+	db := database.NewDb()
 
 	g := gin.Default()
 
@@ -22,7 +18,7 @@ _, err := database.NewDB()
 	g.Use(gin.Recovery())
 
 	service := campaign.Service{
-		Repository: &database.CampaignRepository{},
+		Repository: &database.CampaignRepository{Db: db},
 	}
 	handler := endpoints.Handler{
 		CampaignService: service,

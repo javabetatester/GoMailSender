@@ -15,15 +15,18 @@ const (
 )
 
 type Contact struct {
-	Email string `validate:"required,email"`
+	ID         string `gorm:"size:50"`
+	Email      string `validate:"required,email"`
+	CampaignId string `gorm:"size:50"`
 }
+
 type Campaign struct {
-	ID        string    `validate:"required"`
-	Name      string    `validate:"min=5,max=100"`
+	ID        string    `validate:"required" gorm:"size:50"`
+	Name      string    `validate:"min=5,max=100" gorm:"size:100"`
 	CreatedOn time.Time `validate:"required"`
-	Content   string    `validate:"min=10,max=1024"`
-	Contacts  []Contact `validate:"min=1"`
-	Status    string    `validate:"required"`
+	Content   string    `validate:"min=10,max=1024" gorm:"size:1024"`
+	Contacts  []Contact `validate:"min=1,dive"`
+	Status    string    `validate:"required" gorm:"size:15"`
 }
 
 func NewCampaign(name string, content string, emails []string) (*Campaign, error) {
@@ -31,6 +34,7 @@ func NewCampaign(name string, content string, emails []string) (*Campaign, error
 
 	for index, value := range emails {
 		contacts[index].Email = value
+		contacts[index].ID = xid.New().String()
 	}
 
 	// Validações de disparo de erro são necessárias implementadas, todos os cases que disparam um erro de tipo "x"
