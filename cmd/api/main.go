@@ -27,7 +27,8 @@ func main() {
 	g.POST("/gin-campaigns", endpoints.HandlerError(handler.CampaignPost))
 	g.GET("/gin-campaigns", endpoints.HandlerError(handler.CampaignGet))
 	g.GET("/gin-campaigns/:id", endpoints.HandlerError(handler.CampaignGetById))
-
+	g.PATCH("/gin-campaigns/cancel/:id", endpoints.HandlerError(handler.CampaignPatchById)) //patch
+	g.DELETE("/gin-campaigns/delete/:id", endpoints.HandlerError(handler.CampaignDelete))   //delete
 	log.Println("🚀 Servidor rodando na porta :3001 com GORM")
 	g.Run(":3001")
 }

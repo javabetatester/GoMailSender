@@ -12,6 +12,7 @@ const (
 	Pending  string = "Pending"
 	Active   string = "Active"
 	Finished string = "Finished"
+	Canceled string = "Canceled"
 )
 
 type Contact struct {

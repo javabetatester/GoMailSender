@@ -22,7 +22,6 @@ func (h *Handler) CampaignPost(c *gin.Context) (interface{}, int, error) {
 	if err != nil {
 		return nil, 0, err // Status será determinado pelo tipo de erro
 	}
-
 	// Retorna sucesso
 	return gin.H{"id": id}, http.StatusCreated, nil
 }
@@ -49,4 +48,24 @@ func (h *Handler) CampaignGetById(c *gin.Context) (interface{}, int, error) {
 		return nil, 0, err // Status será determinado pelo tipo de erro
 	}
 	return campaign, http.StatusOK, nil
+}
+
+func (h *Handler) CampaignDelete(c *gin.Context) (interface{}, int, error) {
+	id := c.Param("id")
+
+	err := h.CampaignService.Delete(id)
+	if err != nil {
+		return nil, 0, err // Status será determinado pelo tipo de erro
+	}
+	return gin.H{"id": id}, http.StatusOK, nil
+}
+
+func (h *Handler) CampaignPatchById(c *gin.Context) (interface{}, int, error) {
+	id := c.Param("id")
+	err := h.CampaignService.Repository.Cancel(id)
+
+	if err != nil {
+		return nil, 0, err
+	}
+	return gin.H{"id": id}, http.StatusOK, nil
 }
